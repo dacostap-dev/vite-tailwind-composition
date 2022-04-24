@@ -1,10 +1,19 @@
 <template>
   <nav
-    class="group flex h-screen w-24 flex-col bg-slate-700 py-4 duration-500 sm:w-64"
-    :class="[isOpen ? 'w-64' : 'w-24']"
+    class="group fixed flex h-screen flex-col bg-slate-700 py-4 duration-200"
+    :class="[isNavOpen ? 'w-64' : 'w-24']"
   >
     <div class="flex items-center justify-between">
-      <span class="p-2 text-white">Daniel Acosta</span>
+      <span class="p-2 text-white" :class="{ hidden: !isNavOpen }"
+        >Daniel Acosta</span
+      >
+      <Icon
+        name="UserIcon"
+        :outline="true"
+        class="h-10 w-10 grow p-1.5 text-white"
+        :class="{ hidden: isNavOpen }"
+        @click="changeSidebar"
+      ></Icon>
       <Icon
         name="MenuIcon"
         :outline="true"
@@ -20,6 +29,7 @@
       :title="item.title"
       :icon="item.icon"
       :children="item.children"
+      :isNavOpen="isNavOpen"
     >
     </NavItem>
   </nav>
@@ -35,7 +45,7 @@ export default {
   },
   data() {
     return {
-      isOpen: true,
+      isNavOpen: true,
       items: [
         {
           title: "Maestros",
@@ -44,10 +54,12 @@ export default {
           children: [
             {
               title: "Bancos",
+              icon: "DocumentTextIcon",
               route: "kristen.ramos@example.com",
             },
             {
               title: "Areas",
+              icon: "DocumentTextIcon",
               route: "kristen.ramos@example.com",
             },
           ],
@@ -56,6 +68,18 @@ export default {
           title: "Departamentos",
           icon: "OfficeBuildingIcon",
           route: "kristen.ramos@example.com",
+          children: [
+            {
+              title: "Bancos",
+              icon: "OfficeBuildingIcon",
+              route: "kristen.ramos@example.com",
+            },
+            {
+              title: "Areas",
+              icon: "OfficeBuildingIcon",
+              route: "kristen.ramos@example.com",
+            },
+          ],
         },
         {
           title: "Usuarios",
@@ -78,7 +102,8 @@ export default {
   methods: {
     changeSidebar() {
       console.log("changeSidebar");
-      this.isOpen = !this.isOpen;
+      this.isNavOpen = !this.isNavOpen;
+      this.$emit("isNavOpen", this.isNavOpen);
     },
   },
 };

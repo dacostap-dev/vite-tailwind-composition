@@ -1,14 +1,17 @@
 <template>
   <div
-    class="flex transform cursor-pointer items-center rounded-sm p-4 text-white transition-all duration-700"
+    class="group flex transform cursor-pointer items-center rounded-sm p-4 text-white transition-all duration-700"
     @click="isOpen = !isOpen"
   >
     <Icon
       :name="icon"
       :outline="true"
-      class="mr-2 h-10 w-10 sm:h-5 sm:w-5"
+      class="mr-2"
+      :class="[isNavOpen ? 'h-5 w-5' : 'h-8 w-8 ']"
     ></Icon>
-    <span class="hidden grow sm:block">{{ title }}</span>
+    <span class="grow" :class="[isNavOpen ? 'block' : 'hidden']">{{
+      title
+    }}</span>
 
     <Icon
       v-if="hasChindren"
@@ -22,12 +25,19 @@
   <div
     v-for="child in children"
     :key="child"
-    class="flex items-center bg-green-300 p-4 pl-10"
-    :class="[isOpen ? '' : 'hidden']"
+    class="flex items-center bg-slate-500 pl-10 text-white transition-all duration-300"
+    :class="[isOpen ? 'h-10 p-4 ' : 'h-0 overflow-hidden']"
   >
-    <Icon name="MinusSmIcon" :outline="true" class="h-5 w-5"></Icon>
+    <Icon
+      :name="child.icon"
+      :outline="true"
+      class="mr-4"
+      :class="[isNavOpen ? 'h-5 w-5' : 'h-8 w-8 ']"
+    ></Icon>
 
-    <span>{{ child.title }}</span>
+    <span class="grow" :class="[isNavOpen ? 'block' : 'hidden']">{{
+      child.title
+    }}</span>
   </div>
 </template>
 
@@ -48,6 +58,10 @@ export default {
       type: Array,
       required: false,
       default: [],
+    },
+    isNavOpen: {
+      type: Boolean,
+      required: true,
     },
   },
   components: {
